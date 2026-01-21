@@ -48,7 +48,42 @@ Registers are accessed via an APB-like interface.
 
 ---
 
-## ▶️ How to Run (Questa / ModelSim)
+## ▶️ Running the Simulation
+
+This project supports simulation on both **Cadence Xcelium** and **Synopsys VCS** using UVM and RAL.
+
+---
+
+## 🔹 Cadence Xcelium (xrun)
+
+Cadence Xcelium uses a unified compile + elaborate + simulate flow.
+
+### 📌 Command
+Run from the project root directory:
 
 ```bash
-vsim -c -do sim/run.do
+xrun -64bit \
+     -sv -uvm \
+     -timescale 1ns/1ps \
+     -f sim/files.f \
+     +UVM_TESTNAME=test \
+     +UVM_VERBOSITY=UVM_MEDIUM \
+     -access +rwc
+#### **GUI Waveform** :
+xrun -gui \
+     -sv -uvm \
+     -f sim/files.f \
+     +UVM_TESTNAME=test
+## 🔹** Synopsys VCS**:
+vcs -full64 \
+    -sverilog \
+    -ntb_opts uvm \
+    -timescale=1ns/1ps \
+    -debug_access+all \
+    -f sim/files.f \
+    -l compile.log
+
+#### **GUI Waveform** :
+./simv +UVM_TESTNAME=test +UVM_VERBOSITY=UVM_MEDIUM
+
+
